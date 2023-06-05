@@ -4,11 +4,14 @@ train.py
 COMPLETAR DOCSTRING
 
 DESCRIPCIÓN:
-AUTOR:
-FECHA:
+AUTOR: Bruno Rais
+FECHA: 5 jun 2023
 """
 
 # Imports
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import joblib
 
 class ModelTrainingPipeline(object):
 
@@ -24,7 +27,7 @@ class ModelTrainingPipeline(object):
         :rtype: pd.DataFrame
         """
             
-        # COMPLETAR CON CÓDIGO
+        pandas_df = pd.read_csv(self.input_path)
         
         return pandas_df
 
@@ -37,7 +40,21 @@ class ModelTrainingPipeline(object):
         
         # COMPLETAR CON CÓDIGO
         
-        return df_transformed
+        seed = 28
+        model = LinearRegression()
+        
+        # División de dataset de entrenaimento y validación
+        X = df.drop(columns='Item_Outlet_Sales')
+        y = df['Item_Outlet_Sales']
+        
+        # Entrenamiento del modelo
+        model.fit(X,y)
+        
+        #coef = pd.DataFrame(X.columns, columns=['features'])
+        #coef['Coeficiente Estimados'] = model.coef_
+        
+        
+        return model
 
     def model_dump(self, model_trained) -> None:
         """
@@ -45,8 +62,8 @@ class ModelTrainingPipeline(object):
         
         """
         
-        # COMPLETAR CON CÓDIGO
-        
+        joblib.dump(model_trained, 'model0.pkl')
+
         return None
 
     def run(self):
