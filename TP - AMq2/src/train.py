@@ -37,10 +37,6 @@ class ModelTrainingPipeline(object):
         COMPLETAR DOCSTRING
         
         """
-        
-        # COMPLETAR CON CÓDIGO
-        
-        seed = 28
         model = LinearRegression()
         
         # División de dataset de entrenaimento y validación

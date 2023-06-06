@@ -3,12 +3,13 @@ predict.py
 
 COMPLETAR DOCSTRING
 
-DESCRIPCIÓN:
-AUTOR:
-FECHA:
+DESCRIPCIÓN: 
+AUTOR: Bruno Rais
+FECHA: 5 jun 2023
 """
 
 # Imports
+import pandas as pd
 
 class MakePredictionPipeline(object):
     
