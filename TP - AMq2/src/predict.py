@@ -10,6 +10,9 @@ FECHA: 5 jun 2023
 
 # Imports
 import pandas as pd
+from pandas import DataFrame 
+import joblib
+from feature_engineering import data_transformation
 
 class MakePredictionPipeline(object):
     
@@ -23,14 +26,15 @@ class MakePredictionPipeline(object):
         """
         COMPLETAR DOCSTRING
         """
-
+        pandas_df = pd.read_csv(self.input_path)
+        data  = data_transformation(pandas_df)#No estoy seguro
         return data
 
     def load_model(self) -> None:
         """
         COMPLETAR DOCSTRING
         """    
-        self.model = load_model(self.model_path) # Esta función es genérica, utilizar la función correcta de la biblioteca correspondiente
+        self.model = joblib.load(self.model_path) # Esta función es genérica, utilizar la función correcta de la biblioteca correspondiente
         
         return None
 
@@ -49,7 +53,7 @@ class MakePredictionPipeline(object):
         """
         COMPLETAR DOCSTRING
         """
-
+        predicted_data.to_csv(self.output_path + '/predictions.csv')
         return None
 
 
