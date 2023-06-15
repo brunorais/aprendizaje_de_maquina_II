@@ -12,7 +12,6 @@ FECHA: 5 jun 2023
 import pandas as pd
 from pandas import DataFrame 
 import joblib
-from feature_engineering import data_transformation
 
 class MakePredictionPipeline(object):
     
@@ -27,7 +26,6 @@ class MakePredictionPipeline(object):
         COMPLETAR DOCSTRING
         """
         pandas_df = pd.read_csv(self.input_path)
-        data  = data_transformation(pandas_df)#No estoy seguro
         return data
 
     def load_model(self) -> None:
