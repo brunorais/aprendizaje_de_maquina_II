@@ -124,6 +124,6 @@ class FeatureEngineeringPipeline(object):
 if __name__ == "__main__":
 
     FeatureEngineeringPipeline(
-        input_path='Ruta/De/Donde/Voy/A/Leer/Mis/Datos',
-        output_path='Ruta/Donde/Voy/A/Escribir/Mi/Archivo'
+        input_path='../data/Train_BigMart.csv',
+        output_path='./src'
     ).run()

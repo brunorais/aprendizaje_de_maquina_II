@@ -71,7 +71,7 @@ class ModelTrainingPipeline(object):
 if __name__ == "__main__":
 
     model = ModelTrainingPipeline(
-                input_path='Ruta/De/Donde/Voy/A/Leer/Mis/Datos',
-                model_path='Ruta/Donde/Voy/A/Escribir/Mi/Modelo'
+                input_path='./src/features.csv',
+                model_path='./src/'
             )
     model.run()
