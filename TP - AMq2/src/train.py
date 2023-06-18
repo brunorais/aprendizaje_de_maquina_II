@@ -58,7 +58,7 @@ class ModelTrainingPipeline(object):
         
         """
         
-        joblib.dump(model_trained, 'model0.pkl')
+        joblib.dump(model_trained, self.model_path + '/model0.pkl')
 
         return None
 
