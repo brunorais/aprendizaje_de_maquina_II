@@ -12,6 +12,7 @@ FECHA: 5 jun 2023
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 import joblib
+import logging
 
 
 class ModelTrainingPipeline(object):
@@ -22,21 +23,35 @@ class ModelTrainingPipeline(object):
 
     def read_data(self) -> pd.DataFrame:
         """
-        COMPLETAR DOCSTRING
+        Reads the desired DataLake table from a CSV file into a DataFrame.
 
-        :return pandas_df: The desired DataLake table as a DataFrame
-        :rtype: pd.DataFrame
+        Returns:
+            pandas_df: The desired DataLake table as a DataFrame.
+
+        Return Type:
+            pd.DataFrame
         """
 
+        logging.info("Reading data from CSV: {}".format(self.input_path))
         pandas_df = pd.read_csv(self.input_path)
 
         return pandas_df
 
     def model_training(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        COMPLETAR DOCSTRING
+        Trains a linear regression model using the provided DataFrame.
 
+        Args:
+            df: Input DataFrame containing the training data.
+
+        Returns:
+            Trained linear regression model.
+
+        Return Type:
+            sklearn.linear_model.LinearRegression
         """
+
+        logging.info("Model training: Training linear regression model")
         model = LinearRegression()
 
         # División de dataset de entrenaimento y validación
@@ -53,10 +68,17 @@ class ModelTrainingPipeline(object):
 
     def model_dump(self, model_trained) -> None:
         """
-        COMPLETAR DOCSTRING
+        Saves the trained model to a file using joblib.
 
+        Args:
+            model_trained: Trained model to be saved.
+
+        Returns:
+            None
         """
-        
+
+        logging.info("Model dump: Saving trained model to file: {}".format(self.model_path + '/model0.pkl'))  # noqa E501
+
         joblib.dump(model_trained, self.model_path + '/model0.pkl')
 
         return None
