@@ -63,7 +63,16 @@ class FeatureEngineeringPipeline(object):
         logging.info("CLEANING: Handling missing values in product weights")
         productos = list(df[df['Item_Weight'].isnull()]['Item_Identifier'].unique())  # noqa E501
         for producto in productos:
-            moda = (df[df['Item_Identifier'] == producto][['Item_Weight']]).mode().iloc[0, 0]   # noqa E501
+            try:
+                moda = (df[df['Item_Identifier'] == producto][['Item_Weight']]).mode().iloc[0, 0]   # noqa E501
+            except IndexError:
+                # Pongo todo esto porque hay poquitos
+                #  valores para calcular una moda
+                # En el ds train hay 1 solo valor y en el de
+                #  test como 8 en el primer caso que vi
+                moda = 0
+                logging.warning("Insufficient data for product '{}'. Mode calculation not possible.".format(producto))  # noqa E501
+
             df.loc[df['Item_Identifier'] == producto, 'Item_Weight'] = moda
 
         logging.info("PROCESSING: Checking recorded values for store sizes")
@@ -109,7 +118,7 @@ class FeatureEngineeringPipeline(object):
         df_transformed = df.drop(columns=[
             'Item_Type', 'Item_Fat_Content']).copy()
 
-        # Codificación de variables ordinales
+        logging.info("Ordinal variable encoding: Encoding ordinal variables")
         df_transformed['Outlet_Size'] = df_transformed['Outlet_Size'].replace(
             {'High': 2, 'Medium': 1, 'Small': 0})
         df_transformed['Outlet_Location_Type'] = df_transformed['Outlet_Location_Type'].replace(  # noqa E501
@@ -118,9 +127,9 @@ class FeatureEngineeringPipeline(object):
         df_transformed = pd.get_dummies(
             df_transformed, columns=['Outlet_Type'])
 
-        # Eliminación de variables que no contribuyen a la predicción por ser muy específicas  # noqa E501
+        logging.info("Feature selection: Removing variables with low predictive power")  # noqa E501
         df_transformed = df_transformed.drop(
-            columns=['Item_Identifier', 'Outlet_Identifier', 'Set'])
+            columns=['Item_Identifier', 'Outlet_Identifier'])
 
         return df_transformed
 
