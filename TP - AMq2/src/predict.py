@@ -12,6 +12,7 @@ FECHA: 5 jun 2023
 import pandas as pd
 from pandas import DataFrame
 import joblib
+import logging
 
 
 class MakePredictionPipeline(object):
@@ -23,34 +24,75 @@ class MakePredictionPipeline(object):
 
     def load_data(self) -> pd.DataFrame:
         """
-        COMPLETAR DOCSTRING
+        Load the data from the specified input path and
+         return it as a DataFrame.
+
+        Returns:
+            pandas_df (pd.DataFrame): The loaded data as a DataFrame.
         """
-        pandas_df = pd.read_csv(self.input_path)
-        return pandas_df
+
+        try:
+            logging.info("Loading data from: {}".format(self.input_path))
+            pandas_df = pd.read_csv(self.input_path)
+            return pandas_df
+        except FileNotFoundError:
+            logging.error("File not found: {}".format(self.input_path))
+            return pd.DataFrame()
+        except Exception as e:
+            logging.error("An error occurred while loading data: {}".format(str(e)))  # noqa E501
+            return pd.DataFrame()
 
     def load_model(self) -> None:
         """
-        COMPLETAR DOCSTRING
-        """
-        self.model = joblib.load(self.model_path)  # Esta función es genérica, utilizar la función correcta de la biblioteca correspondiente # noqa E501
+        Load the trained model from the specified model path.
 
-        return None
-
-    def make_predictions(self, data: DataFrame) -> pd.DataFrame:
-        """
-        COMPLETAR DOCSTRING
+        Returns:
+            None
         """
 
-        new_data = self.model.predict(data)
+        try:
+            logging.info("Loading model from: {}".format(self.model_path))
+            self.model = joblib.load(self.model_path)  # Use the appropriate function from the corresponding library  # noqa E501
+        except FileNotFoundError:
+            logging.error("File not found: {}".format(self.model_path))
+        except Exception as e:
+            logging.error("An error occurred while loading the model: {}".format(str(e)))  # noqa E501
 
-        return new_data
+    def make_predictions(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Make predictions using the trained model on the provided data.
 
-    def write_predictions(self, predicted_data: DataFrame) -> None:
+        Args:
+            data (pd.DataFrame): The data to make predictions on.
+
+        Returns:
+            pd.DataFrame: The predicted data.
         """
-        COMPLETAR DOCSTRING
+
+        try:
+            logging.info("Making predictions on provided data")
+            new_data = self.model.predict(data)
+            return new_data
+        except Exception as e:
+            logging.error("An error occurred while making predictions: {}".format(str(e)))  # noqa E501
+            return pd.DataFrame()
+
+    def write_predictions(self, predicted_data: pd.DataFrame) -> None:
         """
-        predicted_data.to_csv(self.output_path + '/predictions.csv')
-        return None
+        Write the predicted data to a CSV file.
+
+        Args:
+            predicted_data (pd.DataFrame): The predicted data.
+
+        Returns:
+            None
+        """
+
+        try:
+            logging.info("Writing predictions to: {}".format(self.output_path))
+            predicted_data.to_csv(self.output_path + '/predictions.csv')
+        except Exception as e:
+            logging.error("An error occurred while writing predictions: {}".format(str(e)))  # noqa E501
 
     def run(self):
 
