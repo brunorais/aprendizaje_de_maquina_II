@@ -65,7 +65,7 @@ if __name__ == "__main__":
     # spark = Spark()
 
     pipeline = MakePredictionPipeline(
-                    input_path='Ruta/De/Donde/Voy/A/Leer/Mis/Datos',
-                    output_path='Ruta/Donde/Voy/A/Escribir/Mis/Datos',
-                    model_path='Ruta/De/Donde/Voy/A/Leer/Mi/Modelo')
+                    input_path='./data/Test_BigMart.csv',
+                    output_path='./src',
+                    model_path='./src/model0.pkl')
     pipeline.run()
