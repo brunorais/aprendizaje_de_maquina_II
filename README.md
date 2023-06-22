@@ -36,6 +36,10 @@ To set up the project and its dependencies, follow these steps:
 
     `pipenv shell`
 
-- Run the project:
+- Run the train pipeline:
 
     `python src/train_pipeline.py`
+
+- Then run inference pipeline with the model and the features generated
+
+    `python src/inference_pipeline.py`

@@ -89,7 +89,10 @@ class MakePredictionPipeline(object):
 
         try:
             logging.info("Writing predictions to: {}".format(self.output_path))
-            df_predicted_data = pd.DataFrame(predicted_data , columns = ['Prediction'])
+            df_predicted_data = pd.DataFrame(
+                predicted_data,
+                columns=['Prediction']
+            )
             df_predicted_data.to_csv(self.output_path + '/predictions.csv')
         except Exception as e:
             logging.error("An error occurred while writing predictions: {}".format(str(e)))  # noqa E501
@@ -103,8 +106,6 @@ class MakePredictionPipeline(object):
 
 
 if __name__ == "__main__":
-
-    # spark = Spark()
 
     pipeline = MakePredictionPipeline(
                     input_path='./src/features.csv',
