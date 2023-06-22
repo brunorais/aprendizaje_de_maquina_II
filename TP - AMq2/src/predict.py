@@ -10,7 +10,6 @@ FECHA: 5 jun 2023
 
 # Imports
 import pandas as pd
-from pandas import DataFrame
 import joblib
 import logging
 

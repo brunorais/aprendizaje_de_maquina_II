@@ -9,6 +9,7 @@ FECHA: 5 jun 2023
 # Imports
 import pandas as pd
 import logging
+import sys
 
 
 class FeatureEngineeringPipeline(object):
@@ -158,7 +159,13 @@ class FeatureEngineeringPipeline(object):
 
 if __name__ == "__main__":
 
+    mode = sys.argv[1]
+    path = {
+        'train': './data/Train_BigMart.csv',
+        'predict': './data/Test_BigMart.csv',
+    }
+
     FeatureEngineeringPipeline(
-        input_path='./data/Train_BigMart.csv',
+        input_path=path[mode],
         output_path='./src'
     ).run()
